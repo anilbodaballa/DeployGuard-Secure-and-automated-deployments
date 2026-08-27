@@ -37,3 +37,16 @@ class AuditLogger:
         }
         logger.warning(f"AUDIT_ROLLBACK: {json.dumps(entry)}")
         return entry
+
+    def export_compliance_report(self, output_path: str = 'audit-report.json') -> str:
+        '''Export complete audit log in compliance-ready JSON format.'''
+        import json
+        from datetime import datetime
+        report = {
+            'compliance_standards': COMPLIANCE_TAGS,
+            'report_generated_at': datetime.utcnow().isoformat() + 'Z',
+            'source': AUDIT_LOG_SOURCE,
+        }
+        with open(output_path, 'w') as f:
+            json.dump(report, f, indent=2)
+        return output_path
