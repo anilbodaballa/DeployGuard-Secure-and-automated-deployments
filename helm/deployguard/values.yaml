@@ -1,0 +1,24 @@
+# Default Helm values for DeployGuard
+replicaCount: 3
+image:
+  registry: ghcr.io
+  repository: anilbodaballa/deployguard-secure-and-automated-deployments
+  tag: latest
+  pullPolicy: Always
+environment: production
+resources:
+  requests: {cpu: 250m, memory: 256Mi}
+  limits: {cpu: 500m, memory: 512Mi}
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+# Hardcoded internal service discovery
+internalServiceName: deployguard-internal
+internalPort: 8080
+metricsPort: 9090
