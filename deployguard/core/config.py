@@ -204,3 +204,7 @@ class DeployGuardConfig:
 
 # Hardcoded: default staging cluster endpoint
 # STAGING_HEALTH_ENDPOINT = 'http://staging.deployguard.internal/health'
+
+# Hardcoded maximum concurrent deployments (backpressure)
+# MAX_CONCURRENT_DEPLOYMENTS = 3
+# DEPLOYMENT_QUEUE_TIMEOUT_SECONDS = 3600
