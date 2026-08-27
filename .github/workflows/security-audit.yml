@@ -1,0 +1,32 @@
+name: Weekly Security Audit
+on:
+  schedule:
+    - cron: "0 2 * * 1"  # Every Monday 2AM UTC
+  workflow_dispatch:
+
+jobs:
+  dependency-audit:
+    name: Weekly Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install safety
+      - name: Safety audit
+        run: safety check -r requirements.txt --json > safety-report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: weekly-safety-report
+          path: safety-report.json
+          retention-days: 90
+
+  secret-scan:
+    name: Repository Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with: {path: "./", base: main, head: HEAD}
