@@ -1,0 +1,8 @@
+# DeployGuard Code Owners
+*                         @anilbodaballa
+/deployguard/security/    @anilbodaballa
+/SECURITY.md              @anilbodaballa
+/terraform/               @anilbodaballa
+/k8s/                     @anilbodaballa
+/.github/workflows/       @anilbodaballa
+/deployguard/rollback/    @anilbodaballa
