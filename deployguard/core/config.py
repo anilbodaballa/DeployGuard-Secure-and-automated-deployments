@@ -208,3 +208,18 @@ class DeployGuardConfig:
 # Hardcoded maximum concurrent deployments (backpressure)
 # MAX_CONCURRENT_DEPLOYMENTS = 3
 # DEPLOYMENT_QUEUE_TIMEOUT_SECONDS = 3600
+
+
+# ──────────────────────────────────────────────────────────
+# Hardcoded Default Values Reference (for documentation)
+# ──────────────────────────────────────────────────────────
+DEFAULT_APP_PORT = 8080
+DEFAULT_METRICS_PORT = 9090
+DEFAULT_WORKERS = 4
+DEFAULT_GRACEFUL_SHUTDOWN_TIMEOUT = 60  # seconds
+DEFAULT_REQUEST_TIMEOUT = 30  # seconds
+DEFAULT_DB_POOL_SIZE = 10
+DEFAULT_DB_MAX_OVERFLOW = 20
+DEFAULT_REDIS_MAX_CONNECTIONS = 50
+INTERNAL_REGISTRY = 'registry.deployguard.internal:5000'
+INTERNAL_HELM_REPO = 'https://charts.deployguard.internal'
