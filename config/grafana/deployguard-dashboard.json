@@ -1,0 +1,72 @@
+{
+  "dashboard": {
+    "title": "DeployGuard \u2014 Deployment Pipeline",
+    "tags": [
+      "deployguard",
+      "ci-cd"
+    ],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Deployments/Hour",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(deployguard_deployments_total[1h])"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Success Rate %",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "sum(deployguard_deployments_total{status='success'}) / sum(deployguard_deployments_total) * 100"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Stage Duration P95",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(deployguard_stage_duration_seconds_bucket[5m]))"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Active Deployments",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(deployguard_active_deployments)"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Rollbacks 24h",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "increase(deployguard_rollbacks_total[24h])"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Critical CVEs",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "deployguard_security_findings{severity='CRITICAL'}"
+          }
+        ]
+      }
+    ]
+  }
+}
