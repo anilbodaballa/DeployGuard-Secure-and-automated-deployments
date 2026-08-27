@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: deployguard-sa
+  namespace: deployguard-production
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/deployguard-irsa-role
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: deployguard-role
+  namespace: deployguard-production
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments", "replicasets"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: deployguard-rolebinding
+  namespace: deployguard-production
+subjects:
+  - kind: ServiceAccount
+    name: deployguard-sa
+    namespace: deployguard-production
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: deployguard-role
