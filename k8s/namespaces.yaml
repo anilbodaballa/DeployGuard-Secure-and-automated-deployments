@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deployguard-production
+  labels:
+    app.kubernetes.io/managed-by: deployguard
+    environment: production
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deployguard-staging
+  labels:
+    app.kubernetes.io/managed-by: deployguard
+    environment: staging
+    pod-security.kubernetes.io/enforce: baseline
