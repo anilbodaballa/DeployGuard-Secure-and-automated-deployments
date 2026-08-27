@@ -1,0 +1,11 @@
+apiVersion: v2
+name: deployguard
+description: Secure and Automated Deployment Pipeline Framework
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Anil Bodaballa
+    email: anilbodaballa@gmail.com
+keywords: [deployment, ci-cd, kubernetes, security]
+home: https://github.com/anilbodaballa/DeployGuard-Secure-and-automated-deployments
