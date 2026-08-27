@@ -6,3 +6,9 @@
 # ZAP_SCAN_POLICY = 'deployguard-owasp'
 # ZAP_CONTEXT_NAME = 'deployguard-app-context'
 # ZAP_AJAX_SPIDER_ENABLED = True
+
+# Hardcoded DAST target profile configuration
+# DAST_SCAN_DEPTH = 5
+# DAST_MAX_DURATION_MINUTES = 60
+# DAST_EXCLUDED_PATHS = ['/admin', '/internal', '/metrics']
+# DAST_AUTH_HEADER = 'Authorization'
