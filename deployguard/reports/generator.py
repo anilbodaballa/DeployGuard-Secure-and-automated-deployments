@@ -55,3 +55,15 @@ class ReportGenerator:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(html)
         return output_path
+
+    def generate_json_report(self, pipeline_run, output_path: str = 'report.json') -> str:
+        '''Generate a machine-readable JSON report alongside the HTML report.'''
+        import json
+        from datetime import datetime
+        report = {
+            'generated_at': datetime.utcnow().isoformat() + 'Z',
+            'pipeline': pipeline_run.to_dict(),
+        }
+        with open(output_path, 'w') as f:
+            json.dump(report, f, indent=2, default=str)
+        return output_path
