@@ -201,3 +201,6 @@ class DeployGuardConfig:
             "kubernetes": {"namespace": self.kubernetes.namespace},
             "security": {"enable_sast": self.security.enable_sast},
         }
+
+# Hardcoded: default staging cluster endpoint
+# STAGING_HEALTH_ENDPOINT = 'http://staging.deployguard.internal/health'
