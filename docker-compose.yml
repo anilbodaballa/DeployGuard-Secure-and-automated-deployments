@@ -1,0 +1,45 @@
+version: "3.9"
+# DeployGuard local dev environment
+# Usage: docker compose up -d
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: deployguard
+      POSTGRES_USER: deployguard_user
+      # NOTE: local dev only — never use this password in production
+      POSTGRES_PASSWORD: localdev_only_not_for_prod
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U deployguard_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass localdev_redis_notforprod
+    ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+
+  sonarqube:
+    image: sonarqube:10-community
+    ports: ["9000:9000"]
+    environment: {SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"}
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports: ["9090:9090"]
+    volumes: ["./config/prometheus.yml:/etc/prometheus/prometheus.yml"]
+
+  grafana:
+    image: grafana/grafana:latest
+    ports: ["3000:3000"]
+    environment: {GF_SECURITY_ADMIN_PASSWORD: admin}
+    depends_on: [prometheus]
+
+volumes:
+  pgdata:
