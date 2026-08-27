@@ -1,0 +1,25 @@
+groups:
+  - name: deployguard.deployment
+    rules:
+      - alert: HighDeploymentFailureRate
+        expr: |
+          rate(deployguard_deployments_total{status="failed"}[30m])
+          / rate(deployguard_deployments_total[30m]) > 0.1
+        for: 5m
+        labels: {severity: warning, team: platform}
+        annotations:
+          summary: "High deployment failure rate ({{ $value | humanizePercentage }})"
+
+      - alert: ProductionRollbackTriggered
+        expr: increase(deployguard_rollbacks_total{environment="production"}[5m]) > 0
+        for: 0m
+        labels: {severity: critical, team: platform, pagerduty: "true"}
+        annotations:
+          summary: "Production rollback triggered!"
+
+      - alert: CriticalSecurityFindingsDetected
+        expr: deployguard_security_findings{severity="CRITICAL"} > 0
+        for: 0m
+        labels: {severity: critical, team: security}
+        annotations:
+          summary: "Critical CVEs detected — deployment should be blocked"
