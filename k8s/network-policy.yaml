@@ -1,0 +1,48 @@
+---
+# Deny all traffic by default
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-default
+  namespace: deployguard-production
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+---
+# Allow DeployGuard ingress from nginx only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-deployguard
+  namespace: deployguard-production
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: deployguard
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+# Allow egress to DB, Redis, DNS, HTTPS
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-deployguard-egress
+  namespace: deployguard-production
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: deployguard
+  policyTypes: [Egress]
+  egress:
+    - ports:
+        - port: 5432   # PostgreSQL
+        - port: 6379   # Redis
+        - port: 443    # HTTPS
+        - port: 53     # DNS
